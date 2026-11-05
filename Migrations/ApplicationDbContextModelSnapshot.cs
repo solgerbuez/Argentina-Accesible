@@ -495,13 +495,13 @@ namespace ArgentinaAccesible.Migrations
                     b.HasOne("ArgentinaAccesible.Models.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArgentinaAccesible.Models.Provincia", "Provincia")
                         .WithMany()
                         .HasForeignKey("ProvinciaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -514,7 +514,7 @@ namespace ArgentinaAccesible.Migrations
                     b.HasOne("ArgentinaAccesible.Models.CaracteristicaAccesibilidad", "Caracteristica")
                         .WithMany()
                         .HasForeignKey("CaracteristicaAccesibilidadId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArgentinaAccesible.Models.Destino", "Destino")
