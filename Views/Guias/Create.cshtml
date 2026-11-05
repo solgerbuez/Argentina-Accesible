@@ -1,0 +1,18 @@
+﻿@model ArgentinaAccesible.ViewModels.GuiaFormViewModel
+@{
+    ViewData["Title"] = "Nueva guía";
+}
+
+<div class="container py-5" style="max-width:720px">
+    <h1 class="h3 mb-4">Nueva guía</h1>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <partial name="_CamposGuia" model="Model" />
+        <button type="submit" class="btn btn-aa">Guardar</button>
+        <a asp-action="Admin" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,58 @@
+﻿@model List<ArgentinaAccesible.Models.Destino>
+@{
+    ViewData["Title"] = "Administrar destinos";
+}
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Administrar destinos</h1>
+        <a asp-action="Create" class="btn btn-aa"><i class="fas fa-plus"></i> Nuevo destino</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nombre</th>
+                    <th>Provincia</th>
+                    <th>Categoría</th>
+                    <th>Creado por</th>
+                    <th>Última modificación</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td><img src="@(d.ImagenUrl ?? "/images/hero-bg.jpg")" alt="" width="64" height="44" style="object-fit:cover" class="rounded" /></td>
+                        <td>@d.Nombre</td>
+                        <td>@d.Provincia?.Nombre</td>
+                        <td>@d.Categoria?.Nombre</td>
+                        <td>@d.CreadoPor<br /><small class="text-muted">@d.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</small></td>
+                        <td>
+                            @if (d.FechaModificacion != null)
+                            {
+                                @d.ModificadoPor
+                                <br />
+                                <small class="text-muted">@d.FechaModificacion?.ToString("dd/MM/yyyy HH:mm")</small>
+                            }
+                            else
+                            {
+
+                                <span class="text-muted">—</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@d.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <form asp-action="Delete" asp-route-id="@d.Id" method="post" class="d-inline form-eliminar">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

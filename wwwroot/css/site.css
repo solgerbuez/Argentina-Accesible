@@ -1,0 +1,437 @@
+:root {
+    --aa-petroleo: #00567A;
+    --aa-petroleo-oscuro: #003F5C;
+    --aa-verde: #19AD56;
+    --aa-verde-texto: #0E7C3A;
+    --aa-naranja: #FF8D22;
+    --aa-amarillo: #FFBE00;
+    --aa-violeta: #913E88;
+    --aa-cian: #00AFCE;
+    --aa-fondo: #F4F8FA;
+    --aa-texto: #1F2937;
+    /* alias por compatibilidad con lo anterior */
+    --aa-azul: var(--aa-petroleo);
+    --aa-azul-oscuro: var(--aa-petroleo-oscuro);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--aa-texto);
+    background: var(--aa-fondo);
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: var(--aa-petroleo);
+}
+
+/* Franja con los colores del logo */
+.franja-logo {
+    height: 5px;
+    background: linear-gradient(90deg, var(--aa-verde) 0 20%, var(--aa-cian) 20% 40%, var(--aa-violeta) 40% 60%, var(--aa-amarillo) 60% 80%, var(--aa-naranja) 80% 100%);
+}
+
+/* Layout */
+.aa-main {
+    padding-top: 85px;
+    padding-bottom: 3rem;
+}
+
+.aa-navbar {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.1);
+}
+
+    .aa-navbar .navbar-brand img {
+        height: 52px;
+        width: auto;
+    }
+
+    .aa-navbar .nav-link {
+        color: var(--aa-texto);
+        font-weight: 600;
+        border-bottom: 3px solid transparent;
+    }
+
+        .aa-navbar .nav-link:hover {
+            color: var(--aa-petroleo);
+            border-bottom-color: var(--aa-naranja);
+        }
+
+.aa-footer {
+    background: var(--aa-petroleo-oscuro);
+    color: #fff;
+}
+
+/* Botones */
+.btn-aa {
+    background: var(--aa-petroleo);
+    color: #fff;
+    border: 0;
+    font-weight: 600;
+}
+
+    .btn-aa:hover {
+        background: var(--aa-petroleo-oscuro);
+        color: #fff;
+    }
+
+.btn-aa-verde {
+    background: var(--aa-verde);
+    color: #0B2B1A;
+    border: 0;
+    font-weight: 600;
+}
+
+    .btn-aa-verde:hover {
+        background: #14944A;
+        color: #0B2B1A;
+    }
+
+.btn-aa-naranja {
+    background: var(--aa-naranja);
+    color: #1F2937;
+    border: 0;
+    font-weight: 600;
+}
+
+    .btn-aa-naranja:hover {
+        background: #E87B12;
+        color: #1F2937;
+    }
+
+/* Hero */
+.hero {
+    background: linear-gradient(rgba(0,63,92,.82), rgba(0,86,122,.72)), url('/images/hero-bg.jpg') center/cover no-repeat;
+    background-color: var(--aa-petroleo);
+    padding: 170px 0 90px;
+    margin-top: -85px;
+}
+
+    .hero h1, .hero p {
+        color: #fff;
+    }
+
+        .hero h1 span {
+            color: var(--aa-amarillo);
+        }
+
+.buscador {
+    max-width: 600px;
+}
+
+/* Títulos de sección */
+.seccion-titulo {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+    .seccion-titulo::after {
+        content: "";
+        display: block;
+        width: 90px;
+        height: 5px;
+        margin: .8rem auto 0;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--aa-verde), var(--aa-amarillo), var(--aa-naranja));
+    }
+
+/* Cards de destinos */
+.destino-card {
+    border: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0,0,0,.1);
+    transition: transform .3s;
+}
+
+    .destino-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .destino-card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+/* Misión / visión / valores */
+.valor-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.8rem;
+    height: 100%;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+    border-top: 6px solid var(--aa-verde);
+}
+
+    .valor-card.v2 {
+        border-top-color: var(--aa-naranja);
+    }
+
+    .valor-card.v3 {
+        border-top-color: var(--aa-violeta);
+    }
+
+.valor-icono {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    color: #fff;
+    background: var(--aa-petroleo);
+    margin-bottom: 1rem;
+}
+
+/* Testimonios */
+.testimonio-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.6rem;
+    height: 100%;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+    border-left: 6px solid var(--aa-cian);
+    position: relative;
+}
+
+    .testimonio-card .comilla {
+        font-size: 2rem;
+        color: var(--aa-cian);
+        opacity: .5;
+    }
+
+.avatar-inicial {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--aa-violeta);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+}
+
+/* Paleta de identidad */
+.swatch {
+    border-radius: 14px;
+    padding: 1.4rem 1rem;
+    min-height: 140px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+    .swatch strong {
+        font-size: 1.05rem;
+    }
+
+    .swatch code {
+        background: rgba(255,255,255,.25);
+        color: inherit;
+        padding: 2px 8px;
+        border-radius: 6px;
+        width: fit-content;
+    }
+
+/* Banner de páginas internas */
+.banner-pagina {
+    background: linear-gradient(135deg, var(--aa-petroleo), var(--aa-petroleo-oscuro));
+    color: #fff;
+    padding: 3rem 0;
+    margin-top: -85px;
+    padding-top: 7rem;
+}
+
+    .banner-pagina h1 {
+        color: #fff;
+    }
+
+/* Accesibilidad: foco visible y skip link */
+:focus-visible {
+    outline: 3px solid var(--aa-naranja);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2000;
+    background: #fff;
+    padding: .5rem 1rem;
+}
+/* Etiquetas de las tarjetas de destino (colores de la marca, con contraste suficiente) */
+.destino-card .etiqueta-cat,
+.destino-card .etiqueta-prov,
+.destino-card .etiqueta-car {
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.destino-card .etiqueta-cat {
+    background: #E6F1F6;
+    color: #00567A;
+    border-color: #B7D4E2;
+}
+
+.destino-card .etiqueta-prov {
+    background: #F3E8F2;
+    color: #6F2E68;
+    border-color: #DDBFDA;
+}
+
+.destino-card .etiqueta-car {
+    background: #E3F5EA;
+    color: #0F6B36;
+    border-color: #B8E3C8;
+}
+/* Botón de favorito sobre la tarjeta */
+.destino-card {
+    position: relative;
+}
+
+.btn-favorito {
+    position: absolute;
+    top: .75rem;
+    right: .75rem;
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #913E88;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .btn-favorito:hover {
+        background: #F3E8F2;
+    }
+
+    .btn-favorito.activo {
+        background: #913E88;
+        color: #fff;
+    }
+
+    .btn-favorito:focus-visible {
+        outline: 3px solid #FFBE00;
+        outline-offset: 2px;
+    }
+.estrella {
+    color: #B87900;
+}
+/* Chatbot flotante */
+.chat-boton {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 1040;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: 0;
+    background: #00567A;
+    color: #fff;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,.3);
+    cursor: pointer;
+}
+
+    .chat-boton:hover {
+        background: #004560;
+    }
+
+    .chat-boton:focus-visible, .chat-cerrar:focus-visible {
+        outline: 3px solid #FFBE00;
+        outline-offset: 2px;
+    }
+
+.chat-panel {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 5.5rem;
+    z-index: 1040;
+    width: 360px;
+    max-width: calc(100vw - 2.5rem);
+    height: 480px;
+    max-height: calc(100vh - 7rem);
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: .75rem;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,.3);
+}
+
+    .chat-panel[hidden] {
+        display: none;
+    }
+
+.chat-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #00567A;
+    color: #fff;
+    padding: .75rem 1rem;
+}
+
+.chat-cerrar {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.chat-mensajes {
+    flex: 1;
+    overflow-y: auto;
+    padding: .75rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    background: #F5F8FA;
+}
+
+.chat-msg {
+    max-width: 85%;
+    padding: .5rem .75rem;
+    border-radius: .75rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.chat-bot {
+    align-self: flex-start;
+    background: #fff;
+    border: 1px solid #D5DEE3;
+    color: #1d2b33;
+}
+
+.chat-usuario {
+    align-self: flex-end;
+    background: #00567A;
+    color: #fff;
+}
+
+.chat-espera {
+    font-style: italic;
+    color: #4a5a63;
+}
+
+.chat-form {
+    display: flex;
+    gap: .5rem;
+    padding: .75rem;
+    border-top: 1px solid #D5DEE3;
+}

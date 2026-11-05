@@ -1,0 +1,19 @@
+﻿@model ArgentinaAccesible.ViewModels.DestinoFormViewModel
+@{
+    ViewData["Title"] = "Nuevo destino";
+}
+
+<div class="container my-4">
+    <h1 class="h3 mb-4">Nuevo destino</h1>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <partial name="_CamposDestino" model="Model" />
+        <div class="mt-4">
+            <button type="submit" class="btn btn-aa">Guardar</button>
+            <a asp-action="Admin" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

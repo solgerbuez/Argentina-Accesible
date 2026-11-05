@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ArgentinaAccesible.Models.CaracteristicaAccesibilidad>
+@{
+    ViewData["Title"] = "Características";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Características de accesibilidad</h1>
+        <a asp-action="Create" class="btn btn-aa"><i class="fa-solid fa-plus"></i> Nueva característica</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead><tr><th>Ícono</th><th>Nombre</th><th class="text-end">Acciones</th></tr></thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td><i class="fa-solid @c.Icono" aria-hidden="true"></i></td>
+                        <td>@c.Nombre</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <form asp-action="Eliminar" asp-route-id="@c.Id" method="post" class="d-inline form-eliminar">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

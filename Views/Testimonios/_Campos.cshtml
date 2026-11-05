@@ -1,0 +1,17 @@
+﻿@model ArgentinaAccesible.Models.Testimonio
+
+<div class="mb-3">
+    <label asp-for="Nombre" class="form-label"></label>
+    <input asp-for="Nombre" class="form-control" />
+    <span asp-validation-for="Nombre" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Localidad" class="form-label"></label>
+    <input asp-for="Localidad" class="form-control" />
+    <span asp-validation-for="Localidad" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Texto" class="form-label"></label>
+    <textarea asp-for="Texto" class="form-control" rows="5"></textarea>
+    <span asp-validation-for="Texto" class="text-danger"></span>
+</div>

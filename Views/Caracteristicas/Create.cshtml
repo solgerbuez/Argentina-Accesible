@@ -1,0 +1,27 @@
+﻿@model ArgentinaAccesible.Models.CaracteristicaAccesibilidad
+@{
+    ViewData["Title"] = "Nueva característica";
+}
+
+<div class="container py-5" style="max-width:560px">
+    <h1 class="h3 mb-4">Nueva característica</h1>
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Icono" class="form-label"></label>
+            <input asp-for="Icono" class="form-control" placeholder="fa-wheelchair" />
+            <div class="form-text">Nombre del ícono de Font Awesome, por ejemplo <code>fa-wheelchair</code>.</div>
+            <span asp-validation-for="Icono" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-aa">Guardar</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

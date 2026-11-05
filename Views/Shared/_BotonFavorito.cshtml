@@ -1,0 +1,19 @@
+﻿@model (int DestinoId, bool EsFavorito)
+
+@if (User.IsInRole("Usuario"))
+{
+    <button type="button"
+            class="btn-favorito @(Model.EsFavorito ? "activo" : "")"
+            data-destino="@Model.DestinoId"
+            aria-pressed="@(Model.EsFavorito ? "true" : "false")"
+            aria-label="@(Model.EsFavorito ? "Quitar de favoritos" : "Agregar a favoritos")">
+        <i class="@(Model.EsFavorito ? "fa-solid" : "fa-regular") fa-heart" aria-hidden="true"></i>
+    </button>
+}
+else if (!(User.Identity?.IsAuthenticated ?? false))
+{
+    <a class="btn-favorito" asp-area="Identity" asp-page="/Account/Login"
+       aria-label="Iniciá sesión para guardar favoritos" title="Iniciá sesión para guardar favoritos">
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+    </a>
+}

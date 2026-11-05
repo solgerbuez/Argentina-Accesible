@@ -1,0 +1,29 @@
+﻿@model ArgentinaAccesible.ViewModels.GuiaFormViewModel
+
+<div class="mb-3">
+    <label asp-for="Titulo" class="form-label"></label>
+    <input asp-for="Titulo" class="form-control" />
+    <span asp-validation-for="Titulo" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Imagen" class="form-label"></label>
+    @if (!string.IsNullOrEmpty(Model.ImagenActual))
+    {
+        <div class="mb-2"><img src="@Model.ImagenActual" alt="Portada actual" style="height:90px" class="rounded"></div>
+    }
+    <input asp-for="Imagen" type="file" accept=".jpg,.jpeg,.png,.webp" class="form-control" />
+    <div class="form-text">JPG, PNG o WEBP, hasta 2 MB. Si no subís una nueva, se conserva la actual.</div>
+    <span asp-validation-for="Imagen" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="ArchivoPdf" class="form-label"></label>
+    @if (!string.IsNullOrEmpty(Model.ArchivoPdfActual))
+    {
+        <div class="mb-2"><a href="@Model.ArchivoPdfActual" target="_blank">Ver PDF actual</a></div>
+    }
+    <input asp-for="ArchivoPdf" type="file" accept=".pdf" class="form-control" />
+    <div class="form-text">Solo PDF, hasta 10 MB.</div>
+    <span asp-validation-for="ArchivoPdf" class="text-danger"></span>
+</div>

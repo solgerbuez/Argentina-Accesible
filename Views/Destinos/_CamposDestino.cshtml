@@ -1,0 +1,69 @@
+﻿@model ArgentinaAccesible.ViewModels.DestinoFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="row g-3">
+    <div class="col-md-8">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Direccion" class="form-label"></label>
+        <input asp-for="Direccion" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Descripcion" class="form-label"></label>
+        <textarea asp-for="Descripcion" rows="3" class="form-control"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="CategoriaId" class="form-label"></label>
+        <select asp-for="CategoriaId" asp-items="Model.Categorias" class="form-select">
+            <option value="0">Elegí una categoría</option>
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="ProvinciaId" class="form-label"></label>
+        <select asp-for="ProvinciaId" asp-items="Model.Provincias" class="form-select">
+            <option value="0">Elegí una provincia</option>
+        </select>
+        <span asp-validation-for="ProvinciaId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Latitud" class="form-label"></label>
+        <input asp-for="Latitud" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Latitud" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Longitud" class="form-label"></label>
+        <input asp-for="Longitud" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Longitud" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Imagen" class="form-label"></label>
+        @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+        {
+            <img src="@Model.ImagenUrl" alt="Imagen actual" height="90" class="rounded mb-2 d-block" />
+        }
+        <input asp-for="Imagen" type="file" accept=".jpg,.jpeg,.png,.webp" class="form-control" />
+        <span asp-validation-for="Imagen" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label d-block">Características de accesibilidad</label>
+        @foreach (var c in Model.TodasCaracteristicas)
+        {
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="CaracteristicasSeleccionadas"
+                       value="@c.Id" id="car_@c.Id" @(Model.CaracteristicasSeleccionadas.Contains(c.Id) ? "checked" : "") />
+                <label class="form-check-label" for="car_@c.Id"><i class="fas @c.Icono"></i> @c.Nombre</label>
+            </div>
+        }
+    </div>
+</div>

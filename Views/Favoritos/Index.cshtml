@@ -1,0 +1,52 @@
+﻿@model List<ArgentinaAccesible.Models.Destino>
+@{
+    ViewData["Title"] = "Mis favoritos";
+}
+
+@Html.AntiForgeryToken()
+
+<section class="banner-pagina text-center">
+    <div class="container"><h1>Mis favoritos</h1></div>
+</section>
+
+<div class="container my-5">
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fa-regular fa-heart fa-3x text-muted mb-3" aria-hidden="true"></i>
+            <p class="text-muted">Todavía no guardaste ningún destino.</p>
+            <a asp-controller="Destinos" asp-action="Index" class="btn btn-aa">Explorar destinos</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var d in Model)
+            {
+                <button type="button" class="btn btn-aa btn-sm mt-3 btn-detalle" data-destino="@d.Id">
+                    Ver detalle y reseñas
+                </button>
+                <div class="col-md-6 col-lg-4 col-fav">
+                    <div class="card destino-card h-100">
+                        <partial name="_BotonFavorito" model="(d.Id, true)" />
+                        <img src="@(d.ImagenUrl ?? "/images/hero-bg.jpg")" class="card-img-top" alt="@d.Nombre" />
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <span class="badge etiqueta-cat">@d.Categoria?.Nombre</span>
+                                <span class="badge etiqueta-prov">@d.Provincia?.Nombre</span>
+                            </div>
+                            <h2 class="h5">@d.Nombre</h2>
+                            <p class="text-muted">@d.Descripcion</p>
+                            @foreach (var c in d.Caracteristicas)
+                            {
+                                <span class="badge etiqueta-car me-1">
+                                    <i class="fas @c.Caracteristica?.Icono" aria-hidden="true"></i> @c.Caracteristica?.Nombre
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

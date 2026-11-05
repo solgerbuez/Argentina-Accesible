@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | Argentina Accesible</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <a class="visually-hidden-focusable skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header>
+        <nav class="navbar navbar-expand-lg aa-navbar fixed-top">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-wheelchair"></i> Argentina Accesible
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#menuPrincipal" aria-controls="menuPrincipal"
+                        aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Destinos" asp-action="Index">Destinos</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Guias" asp-action="Index">Guías</a></li>
+                        @if (User.IsInRole("Usuario"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Favoritos" asp-action="Index">Mis favoritos</a></li>
+                        }
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Destinos" asp-action="Admin">Destinos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Guias" asp-action="Admin">Guías</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index">Categorías</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Provincias" asp-action="Index">Provincias</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Caracteristicas" asp-action="Index">Características</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Testimonios" asp-action="Index">Testimonios</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="contenido" class="flex-grow-1 aa-main" role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="aa-footer text-center py-4">
+        <div class="container">&copy; @DateTime.Now.Year Argentina Accesible · Turismo para todos</div>
+    </footer>
+    @Html.AntiForgeryToken()
+
+    <!-- Modal de detalle de destino -->
+    <div class="modal fade" id="modalDestino" tabindex="-1" aria-labelledby="modalDestinoTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content" id="modalDestinoContenido"></div>
+        </div>
+    </div>
+
+    <!-- Chatbot flotante -->
+    <button type="button" id="chat-boton" class="chat-boton" aria-label="Abrir el asistente virtual"
+            aria-expanded="false" aria-controls="chat-panel">
+        <i class="fa-solid fa-comments" aria-hidden="true"></i>
+    </button>
+
+    <section id="chat-panel" class="chat-panel" role="dialog" aria-label="Asistente virtual de Argentina Accesible" hidden>
+        <header class="chat-cabecera">
+            <strong>Asistente virtual</strong>
+            <button type="button" id="chat-cerrar" class="chat-cerrar" aria-label="Cerrar el asistente">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </header>
+        <div id="chat-mensajes" class="chat-mensajes" aria-live="polite">
+            <div class="chat-msg chat-bot">¡Hola! Soy el asistente de Argentina Accesible. Puedo ayudarte a encontrar destinos accesibles y a usar el sitio. ¿Qué querés saber?</div>
+        </div>
+        <form id="chat-form" class="chat-form" autocomplete="off">
+            <label for="chat-entrada" class="visually-hidden">Escribí tu pregunta</label>
+            <input id="chat-entrada" class="form-control" type="text" maxlength="500" placeholder="Escribí tu pregunta…" required />
+            <button type="submit" class="btn btn-aa" aria-label="Enviar"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
+        </form>
+    </section>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @if (TempData["Exito"] != null)
+    {
+        <script>
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: @Json.Serialize(TempData["Exito"]),
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+        </script>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se pudo completar',
+                    text: @Json.Serialize(TempData["Error"]),
+                    confirmButtonText: 'Entendido'
+                });
+        </script>
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

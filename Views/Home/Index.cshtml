@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<section class="hero text-center text-white">
+    <div class="container">
+        <h1 class="display-4">Descubrí Argentina <span>sin límites</span></h1>
+        <p class="lead">Encontrá destinos, alojamientos y actividades accesibles.</p>
+
+        <form asp-controller="Destinos" asp-action="Index" method="get" class="buscador mx-auto my-4">
+            <div class="input-group input-group-lg">
+                <input type="text" name="busqueda" class="form-control"
+                       placeholder="Ej: Mendoza, museo, rampas..." aria-label="Buscar destinos" />
+                <button class="btn btn-aa-naranja" type="submit" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <a asp-controller="Destinos" asp-action="Index" class="btn btn-aa btn-lg">Explorar destinos</a>
+    </div>
+</section>
