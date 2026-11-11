@@ -10,29 +10,71 @@
 </section>
 
 <section class="py-5">
-    <div class="container">
-        <div class="row g-4">
+    <div class="container" style="max-width: 900px;">
+
+        <h2 class="seccion-titulo">El problema</h2>
+        <p class="fs-5">
+            Planificar un viaje debería ser lo más lindo del proceso. Pero para muchas personas con discapacidad
+            empieza con una pregunta que casi nunca tiene respuesta: <strong>¿voy a poder entrar?</strong>
+        </p>
+        <p>
+            ¿El hotel tiene rampa? ¿El baño es adaptado? ¿El museo tiene ascensor? ¿El colectivo que sale a las
+            sierras sube una silla de ruedas? Esa información suele estar dispersa, incompleta o directamente no
+            existe, y la única forma de saberlo es llamar lugar por lugar o llegar y arriesgarse a que no se pueda.
+        </p>
+
+        <h2 class="seccion-titulo mt-5">Cómo empezó</h2>
+        <p>
+            Argentina Accesible nació de un fin de semana que no pudo ser. Un grupo de amigos quería escaparse a las
+            sierras y una de nosotras se mueve en silla de ruedas. Pasamos una noche entera buscando alojamientos,
+            llamando a recepciones y leyendo reseñas que decían "hermoso lugar" pero nada sobre escalones, puertas o
+            baños. Cuando por fin encontramos una cabaña, descubrimos al llegar que había tres escalones en la entrada.
+        </p>
+        <p>
+            Volvimos con las ganas intactas y una idea clara: <strong>esa información tenía que estar en un solo
+            lugar, escrita para quienes la necesitan</strong>. Así empezamos a juntar destinos, a anotar qué
+            características de accesibilidad tenía cada uno y a pensar cómo compartirlo con otras personas.
+        </p>
+
+        <h2 class="seccion-titulo mt-5">Qué hacemos</h2>
+        <div class="row g-4 mb-4">
             <div class="col-md-4">
                 <div class="valor-card h-100">
-                    <div class="valor-icono"><i class="fas fa-bullseye" aria-hidden="true"></i></div>
-                    <h2 class="h5">Misión</h2>
-                    <p class="mb-0">Facilitar que todas las personas puedan planificar viajes por Argentina con información clara y confiable sobre la accesibilidad de cada lugar.</p>
+                    <div class="valor-icono"><i class="fas fa-map-location-dot" aria-hidden="true"></i></div>
+                    <h3 class="h5">Reunimos información</h3>
+                    <p class="mb-0">Cada destino muestra sus características de accesibilidad: rampas, baños adaptados, señalización y más.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="valor-card v2 h-100">
-                    <div class="valor-icono"><i class="fas fa-eye" aria-hidden="true"></i></div>
-                    <h2 class="h5">Visión</h2>
-                    <p class="mb-0">Ser la guía de referencia del turismo accesible en el país, para que viajar sin barreras sea lo habitual.</p>
+                    <div class="valor-icono"><i class="fas fa-users" aria-hidden="true"></i></div>
+                    <h3 class="h5">Compartimos experiencias</h3>
+                    <p class="mb-0">Las reseñas y los testimonios de otros viajeros cuentan cómo fue realmente la visita.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="valor-card v3 h-100">
-                    <div class="valor-icono"><i class="fas fa-handshake" aria-hidden="true"></i></div>
-                    <h2 class="h5">Valores</h2>
-                    <p class="mb-0">Inclusión, autonomía, información verificada y respeto por la experiencia de cada viajero.</p>
+                    <div class="valor-icono"><i class="fas fa-comments" aria-hidden="true"></i></div>
+                    <h3 class="h5">Acompañamos el viaje</h3>
+                    <p class="mb-0">Guías descargables y un asistente virtual que responde dudas sobre los destinos del sitio.</p>
                 </div>
             </div>
+        </div>
+
+        <h2 class="seccion-titulo mt-5">Por qué lo hacemos</h2>
+        <p>
+            Creemos que la autonomía empieza por la información. Viajar no debería depender de la suerte, de un
+            llamado de último momento ni de la buena voluntad de un tercero. Si una persona puede saber de
+            antemano a qué se va a encontrar, puede decidir por sí misma adónde ir.
+        </p>
+        <p>
+            Hoy Argentina Accesible es un proyecto en crecimiento, nacido como trabajo final de nuestra carrera, y
+            queremos que sea cada vez más útil con la ayuda de quienes lo usan.
+        </p>
+
+        <div class="text-center mt-5">
+            <a asp-controller="Destinos" asp-action="Index" class="btn btn-aa btn-lg">Explorar destinos</a>
+            <a asp-controller="Home" asp-action="Testimonios" class="btn btn-outline-secondary btn-lg ms-2">Leer testimonios</a>
         </div>
     </div>
 </section>

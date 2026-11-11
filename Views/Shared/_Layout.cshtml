@@ -1,10 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@{
+    // Para marcar en el menú la página donde estamos
+    var ctrl = ViewContext.RouteData.Values["controller"]?.ToString();
+    var act = ViewContext.RouteData.Values["action"]?.ToString();
+    string Activo(string c, string a) => (ctrl == c && act == a) ? " active" : "";
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] | Argentina Accesible</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="~/images/logo-icono.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -16,8 +23,9 @@
     <header>
         <nav class="navbar navbar-expand-lg aa-navbar fixed-top">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-wheelchair"></i> Argentina Accesible
+                <a class="navbar-brand aa-marca" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo-icono.png" alt="" height="50" />
+                    <span class="aa-marca-texto">Argentina<br /><span>Accesible</span></span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#menuPrincipal" aria-controls="menuPrincipal"
@@ -25,15 +33,15 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="menuPrincipal">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Destinos" asp-action="Index">Destinos</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Guias" asp-action="Index">Guías</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Testimonios">Testimonios</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="QuienesSomos">Quiénes somos</a></li>
+                    <ul class="navbar-nav me-auto align-items-lg-center">
+                        <li class="nav-item"><a class="nav-link@(Activo("Home", "Index"))" asp-controller="Home" asp-action="Index">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link@(Activo("Destinos", "Index"))" asp-controller="Destinos" asp-action="Index">Destinos</a></li>
+                        <li class="nav-item"><a class="nav-link@(Activo("Guias", "Index"))" asp-controller="Guias" asp-action="Index">Guías</a></li>
+                        <li class="nav-item"><a class="nav-link@(Activo("Home", "Testimonios"))" asp-controller="Home" asp-action="Testimonios">Testimonios</a></li>
+                        <li class="nav-item"><a class="nav-link@(Activo("Home", "QuienesSomos"))" asp-controller="Home" asp-action="QuienesSomos">Quiénes somos</a></li>
                         @if (User.IsInRole("Usuario"))
                         {
-                            <li class="nav-item"><a class="nav-link" asp-controller="Favoritos" asp-action="Index">Mis favoritos</a></li>
+                            <li class="nav-item"><a class="nav-link@(Activo("Favoritos", "Index"))" asp-controller="Favoritos" asp-action="Index">Mis favoritos</a></li>
                         }
                         @if (User.IsInRole("Administrador"))
                         {

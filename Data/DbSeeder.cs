@@ -73,11 +73,11 @@ public static class DbSeeder
             new Guia { Titulo = "Iguazú Accesible", ImagenUrl = "/images/guia-iguazu.jpg", ArchivoPdf = "/guias/guia-iguazu.pdf", CreadoPor = "Sistema", FechaCreacion = ahora },
             new Guia { Titulo = "Córdoba Accesible", ImagenUrl = "/images/cordoba.jpg", ArchivoPdf = "/guias/guia-cordoba.pdf", CreadoPor = "Sistema", FechaCreacion = ahora },
             new Guia { Titulo = "La Pampa Accesible", ImagenUrl = "/images/la-pampa.jpg", ArchivoPdf = "/guias/guia-la-pampa.pdf", CreadoPor = "Sistema", FechaCreacion = ahora },
-            new Guia { Titulo = "Derechos del turista", ImagenUrl = "/images/derecho-turismo.jpg", ArchivoPdf = "/guias/leyes-turismo.pdf", CreadoPor = "Sistema", FechaCreacion = ahora },
+                       new Guia { Titulo = "Derechos del turista", ImagenUrl = "/images/derecho-turismo.jpg", ArchivoPdf = "/guias/derechos-turismo-accesible.pdf", CreadoPor = "Sistema", FechaCreacion = ahora },
             new Guia { Titulo = "10 consejos de viaje", ImagenUrl = "/images/consejos-viajes.jpg", ArchivoPdf = "/guias/10-consejos-viaje.pdf", CreadoPor = "Sistema", FechaCreacion = ahora }
         };
         foreach (var g in guias)
-            if (!await context.Guias.AnyAsync(x => x.Titulo == g.Titulo))
+            if (!await context.Guias.AnyAsync(x => x.Titulo == g.Titulo || x.ArchivoPdf == g.ArchivoPdf))
                 context.Guias.Add(g);
 
         // EJEMPLOS para la demo: reemplazalos por testimonios reales (con permiso de cada persona) desde el ABM

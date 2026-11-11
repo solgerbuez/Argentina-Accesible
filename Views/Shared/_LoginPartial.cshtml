@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav align-items-lg-center gap-lg-2">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
@@ -9,7 +9,7 @@
         </li>
         <li class="nav-item">
             <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link border-0">Cerrar sesión</button>
+                <button type="submit" class="btn-ingresar">Cerrar sesión</button>
             </form>
         </li>
     }
@@ -19,7 +19,7 @@
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registrarse</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Iniciar sesión</a>
+            <a class="btn-ingresar" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-user" aria-hidden="true"></i> Iniciar sesión</a>
         </li>
     }
 </ul>

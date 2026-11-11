@@ -1,61 +1,80 @@
-﻿@model List<ArgentinaAccesible.Models.RegistroAuditoria>
+﻿@model ArgentinaAccesible.ViewModels.AuditoriaViewModel
 @{
     ViewData["Title"] = "Auditoría";
-    var entidadElegida = ViewData["Entidad"] as string;
     var entidades = new[] { "Destino", "Guía", "Provincia", "Categoría", "Característica", "Testimonio", "Reseña" };
+
+    // Artículo para armar la frase: "eliminó la guía ..."
+    string Articulo(string entidad) => entidad is "Destino" or "Testimonio" ? "el" : "la";
+
+    string Cuando(DateTime f)
+    {
+        var hoy = DateTime.Now.Date;
+        if (f.Date == hoy) return "Hoy " + f.ToString("HH:mm");
+        if (f.Date == hoy.AddDays(-1)) return "Ayer " + f.ToString("HH:mm");
+        return f.ToString("dd/MM HH:mm");
+    }
+
+    string Clase(string accion) => accion == "Creó" ? "alta" : accion == "Modificó" ? "mod" : "baja";
 }
 
-<div class="container py-4">
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-        <h1 class="h2 mb-0">Auditoría</h1>
-        <form method="get" class="d-flex gap-2">
-            <select name="entidad" class="form-select" aria-label="Filtrar por entidad">
-                <option value="">Todas las entidades</option>
-                @foreach (var e in entidades)
-                {
-                    <option value="@e" selected="@(e == entidadElegida)">@e</option>
-                }
-            </select>
-            <button type="submit" class="btn btn-aa">Filtrar</button>
-        </form>
+<section class="banner-pagina aud-banner">
+    <div class="container">
+        <h1>Auditoría</h1>
+        <p class="lead mb-0">Historial de cambios del sitio.</p>
+    </div>
+</section>
+
+<div class="container pb-4">
+
+    <div class="aud-stats">
+        <div class="aud-stat total">
+            <div class="aud-icono"><i class="fas fa-list" aria-hidden="true"></i></div>
+            <div><div class="aud-num">@Model.Total</div><div class="aud-etq">Operaciones</div></div>
+        </div>
+        <div class="aud-stat alta">
+            <div class="aud-icono"><i class="fas fa-plus" aria-hidden="true"></i></div>
+            <div><div class="aud-num">@Model.Altas</div><div class="aud-etq">Altas</div></div>
+        </div>
+        <div class="aud-stat mod">
+            <div class="aud-icono"><i class="fas fa-pen" aria-hidden="true"></i></div>
+            <div><div class="aud-num">@Model.Modificaciones</div><div class="aud-etq">Modificaciones</div></div>
+        </div>
+        <div class="aud-stat baja">
+            <div class="aud-icono"><i class="fas fa-xmark" aria-hidden="true"></i></div>
+            <div><div class="aud-num">@Model.Bajas</div><div class="aud-etq">Bajas</div></div>
+        </div>
     </div>
 
-    <p class="text-muted">
-        Historial de las últimas 200 operaciones del sistema: qué usuario creó, modificó o eliminó cada registro, y cuándo.
-    </p>
+    <nav class="aud-filtros" aria-label="Filtrar por tipo de dato">
+        <a class="aud-chip @(string.IsNullOrEmpty(Model.Entidad) ? "activo" : "")" asp-action="Index">Todo</a>
+        @foreach (var e in entidades)
+        {
+            <a class="aud-chip @(e == Model.Entidad ? "activo" : "")" asp-action="Index" asp-route-entidad="@e">@e</a>
+        }
+    </nav>
 
-    @if (!Model.Any())
+    @if (!Model.Registros.Any())
     {
         <p class="text-center text-muted my-5">Todavía no hay operaciones registradas.</p>
     }
     else
     {
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Usuario</th>
-                        <th>Acción</th>
-                        <th>Entidad</th>
-                        <th>Detalle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var r in Model)
-                    {
-                        <tr>
-                            <td class="text-nowrap">@r.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>@r.Usuario</td>
-                            <td>
-                                <span class="badge @(r.Accion == "Creó" ? "bg-success" : r.Accion == "Modificó" ? "bg-warning text-dark" : "bg-danger")">@r.Accion</span>
-                            </td>
-                            <td>@r.Entidad</td>
-                            <td>@r.Detalle</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="aud-lista">
+            @foreach (var r in Model.Registros)
+            {
+                var nombre = r.Usuario.Split('@')[0];
+                var inicial = string.IsNullOrEmpty(nombre) ? "?" : nombre.Substring(0, 1).ToUpper();
+                <div class="aud-fila">
+                    <div class="aud-avatar @Clase(r.Accion)" aria-hidden="true">@inicial</div>
+                    <div class="aud-texto">
+                        <span><strong>@nombre</strong> @r.Accion.ToLower() @Articulo(r.Entidad) @r.Entidad.ToLower() <strong>@r.Detalle</strong></span>
+                        <small>@r.Usuario</small>
+                    </div>
+                    <span class="aud-entidad">@r.Entidad</span>
+                    <span class="aud-accion @Clase(r.Accion)">@r.Accion</span>
+                    <span class="aud-cuando">@Cuando(r.Fecha)</span>
+                </div>
+            }
         </div>
     }
 </div>

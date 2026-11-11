@@ -1,13 +1,13 @@
 # Argentina Accesible
 
-Sitio web de **turismo accesible en Argentina**. Permite descubrir destinos con sus características de accesibilidad (rampas, baños adaptados, señalización, etc.), consultar guías descargables, guardar favoritos, dejar reseñas y hacer consultas a un asistente virtual con inteligencia artificial.
+Sitio web de **turismo accesible en Argentina**. Permite descubrir destinos con sus características de accesibilidad (rampas, baños adaptados, señalización, etc.), consultar guías descargables, guardar favoritos, dejar reseñas, compartir testimonios y hacer consultas a un asistente virtual con inteligencia artificial.
 
 Trabajo Final Integrador (TFI) de Programación Web — ASP.NET Core MVC.
 
-- Autora: Solange Gerbuez
-- Materia:Programación Web / Año: [2026]
-- Sitio publicado: [completar con la URL pública]
-- **Repositorio:** [completar con la URL de GitHub]
+- **Autora:** Solange Gerbuez
+- **Materia:** Programación Web — 2026
+- **Sitio publicado:** http://argentinaaccesible.runasp.net
+- **Repositorio:** https://github.com/solgerbuez/Argentina-Accesible
 
 ---
 
@@ -20,7 +20,7 @@ Trabajo Final Integrador (TFI) de Programación Web — ASP.NET Core MVC.
 | Base de datos | SQL Server / SQL Server Express |
 | Autenticación y roles | ASP.NET Core Identity (Administrador y Usuario) |
 | Interfaz | Bootstrap 5 (responsive), Font Awesome |
-| Validaciones | DataAnnotations + jQuery Validation Unobtrusive (cliente y servidor) |
+| Validaciones | DataAnnotations + jQuery Validation Unobtrusive (cliente y servidor, mensajes en español) |
 | Mensajes y modales | SweetAlert2 y modales de Bootstrap con AJAX |
 | Inteligencia artificial | Google Gemini (API REST consumida con `HttpClient`) |
 
@@ -29,7 +29,7 @@ Trabajo Final Integrador (TFI) de Programación Web — ASP.NET Core MVC.
 ## Funcionalidades
 
 ### Visitante (sin sesión)
-- Ver la portada, los destinos y las guías.
+- Ver la portada, los destinos, las guías, los testimonios y la página "Quiénes somos".
 - Buscar destinos por nombre, provincia o categoría.
 - Ver el detalle de cada destino y sus reseñas en una ventana modal.
 - Descargar las guías en PDF.
@@ -40,12 +40,32 @@ Trabajo Final Integrador (TFI) de Programación Web — ASP.NET Core MVC.
 - Todo lo anterior.
 - Agregar y quitar destinos de **favoritos** (sin recargar la página) y ver "Mis favoritos".
 - **Reseñas**: crear, editar y eliminar la propia (puntaje de 1 a 5 y comentario).
+- **Testimonios**: enviar su experiencia de viaje. Queda *pendiente* hasta que el administrador la apruebe.
 
 ### Administrador (rol `Administrador`)
 - Todo lo anterior.
 - ABM completo de **Destinos** (con imagen adjunta), **Guías** (con PDF adjunto), **Categorías**, **Provincias**, **Características de accesibilidad** y **Testimonios**.
+- **Moderación de testimonios**: ver los pendientes y aprobarlos para que se publiquen.
 - Eliminar cualquier reseña.
-- Auditoría: se registra qué usuario creó y modificó cada destino, guía y testimonio, y cuándo.
+- **Auditoría**: pantalla que muestra qué usuario realizó cada operación (creó, modificó o eliminó), sobre qué dato y cuándo, con filtro por tipo de dato.
+
+### Portada
+- Presentación del sitio con buscador.
+- Secciones con lo que se puede encontrar (destinos, guías, reseñas y favoritos, asistente virtual).
+- "Los más guardados por la comunidad": los destinos con más favoritos reales.
+- Últimos testimonios publicados.
+
+---
+
+## Auditoría
+
+Toda operación de alta, modificación o baja hecha por un usuario autenticado se registra **automáticamente** en la tabla `RegistrosAuditoria`.
+
+- El `DbContext` sobrescribe `SaveChanges` / `SaveChangesAsync`, revisa los cambios pendientes y guarda: usuario, acción (Creó / Modificó / Eliminó), tipo de dato, detalle y fecha.
+- El usuario se obtiene de la sesión (`IHttpContextAccessor`), nunca de un formulario.
+- Se audita: Destinos, Guías, Provincias, Categorías, Características, Testimonios y Reseñas.
+- Solo el administrador puede ver la pantalla de auditoría (`/Auditoria`). Es de solo lectura.
+- Los datos iniciales cargados por el sistema (seeder) no se registran, porque no hay un usuario autenticado.
 
 ---
 
@@ -63,16 +83,20 @@ Botón flotante en todas las páginas que abre un chat conectado a **Gemini**.
 
 ## Modelo de datos
 
-Tablas propias (9):
+Tablas propias (10):
 
-`Provincias`, `Categorias`, `Caracteristicas`, `Destinos`, `DestinoCaracteristicas` (relación muchos a muchos), `Resenas`, `Favoritos`, `Guias`, `Testimonios`.
+`Provincias`, `Categorias`, `Caracteristicas`, `Destinos`, `DestinoCaracteristicas` (relación muchos a muchos), `Resenas`, `Favoritos`, `Guias`, `Testimonios`, `RegistrosAuditoria`.
 
 Más las 7 tablas de ASP.NET Core Identity: `AspNetUsers`, `AspNetRoles`, `AspNetUserRoles`, `AspNetUserClaims`, `AspNetRoleClaims`, `AspNetUserLogins`, `AspNetUserTokens`.
 
 Decisiones de diseño:
 - Las relaciones con Provincia, Categoría y Característica usan `DeleteBehavior.Restrict`: no se puede borrar un dato del catálogo que esté en uso (evita borrar destinos en cascada).
 - `Favoritos` tiene un índice único (`UsuarioId` + `DestinoId`): un usuario no puede repetir un favorito.
-- Los campos de auditoría (`CreadoPor`, `ModificadoPor`) se guardan como texto para que el historial se conserve aunque se elimine al usuario.
+- Los usuarios que realizan operaciones se guardan como texto (no como clave foránea) para que el historial se conserve aunque se elimine al usuario.
+- `Testimonios` tiene el campo `Pendiente`: lo que se muestra al público siempre se filtra por `!Pendiente`.
+
+### Migraciones
+Se generaron con Code First, en este orden: `Inicial`, `Testimonios`, `RestringirBorrados`, `QuitarCoordenadas`, `AgregarAuditoria` y `AgregarPendienteTestimonio`. Al iniciar la aplicación se aplican automáticamente (`MigrateAsync`), tanto en local como en el sitio publicado.
 
 ---
 
@@ -81,12 +105,12 @@ Decisiones de diseño:
 - Acceso por roles con `[Authorize(Roles = "...")]` en los controladores.
 - Token antifalsificación en formularios y en las llamadas AJAX (`RequestVerificationToken`).
 - Las acciones de edición usan **ViewModels** o listas blancas (`[Bind]`) para evitar *overposting*.
-- Los campos de auditoría se completan en el servidor a partir del usuario autenticado, nunca desde el formulario.
+- Los campos de auditoría y el estado de los testimonios se completan en el servidor, nunca desde el formulario.
 - Archivos adjuntos validados en el servidor:
   - Imágenes: JPG, PNG o WebP, máximo 2 MB.
   - PDF: máximo 10 MB, verificando la firma real del archivo (`%PDF`).
   - Se guardan con nombre aleatorio (GUID).
-- La clave de Gemini **no está en el repositorio** (ver más abajo).
+- La clave de Gemini y la cadena de conexión de producción **no están en el repositorio** (ver más abajo).
 
 ---
 
@@ -101,8 +125,8 @@ Decisiones de diseño:
 
 1. **Clonar el repositorio**
    ```bash
-   git clone [URL del repositorio]
-   cd [carpeta del proyecto]
+   git clone https://github.com/solgerbuez/Argentina-Accesible.git
+   cd Argentina-Accesible
    ```
 
 2. **Configurar la cadena de conexión** en `appsettings.json`:
@@ -120,7 +144,7 @@ Decisiones de diseño:
    La clave se obtiene gratis en [Google AI Studio](https://aistudio.google.com/).
    El modelo se configura en `appsettings.json` (`Gemini:Model`).
 
-4. **Crear la base de datos.** Al iniciar la aplicación se aplican las migraciones y se cargan los datos iniciales (roles, usuarios de prueba, provincias, categorías, características, destinos, guías y testimonios). También se puede hacer a mano:
+4. **Crear la base de datos.** Al iniciar la aplicación se aplican las migraciones y se cargan los datos iniciales (roles, usuarios de prueba, provincias, categorías, características, destinos, guías y testimonios de ejemplo). También se puede hacer a mano:
    ```bash
    dotnet ef database update
    ```
@@ -140,15 +164,19 @@ Decisiones de diseño:
 | Administrador | admin@argentinaaccesible.com | Admin123! |
 | Usuario | usuario@argentinaaccesible.com | Usuario123! |
 
+Los testimonios que vienen cargados son **ejemplos** inventados para mostrar cómo se ve la sección.
+
 ---
 
 ## Despliegue
 
-- **Plataforma:** [completar: Render / SmarterASP.NET / MonsterASP / Azure]
-- **URL pública:** [completar]
-- **Variables de entorno necesarias:**
+- **Plataforma:** MonsterASP.NET (plan gratuito), con base de datos SQL Server alojada en la misma plataforma.
+- **URL pública:** http://argentinaaccesible.runasp.net
+- **Publicación:** desde Visual Studio con Web Deploy. Las migraciones se aplican solas al iniciar la aplicación.
+- **Variables de entorno configuradas en el panel del hosting:**
   - `ConnectionStrings__DefaultConnection`: cadena de conexión de la base de datos publicada.
   - `Gemini__ApiKey`: clave de la API de Gemini.
+  - `Gemini__Model`: modelo de Gemini a usar.
   - `ASPNETCORE_ENVIRONMENT`: `Production`.
 
 ---
@@ -159,8 +187,8 @@ Decisiones de diseño:
 ArgentinaAccesible/
 ├── Areas/Identity/Pages/Account/   Páginas de Identity traducidas (Login, Registro, etc.)
 ├── Controllers/                    Destinos, Guías, Provincias, Categorías, Características,
-│                                   Testimonios, Favoritos, Reseñas, Chat y Home
-├── Data/                           DbContext, DbSeeder y traductor de errores de Identity
+│                                   Testimonios, Favoritos, Reseñas, Auditoría, Chat y Home
+├── Data/                           DbContext (con auditoría), DbSeeder y traductor de errores de Identity
 ├── Migrations/                     Migraciones de EF Core
 ├── Models/                         Entidades
 ├── Services/GeminiService.cs       Cliente de la API de Gemini
@@ -180,14 +208,9 @@ ArgentinaAccesible/
 | Identity con al menos 2 roles | Administrador y Usuario |
 | CRUD con validaciones de servidor y cliente | Destinos, Guías, Provincias, Categorías, Características y Testimonios |
 | Archivos adjuntos (imágenes y PDF) | Destinos (imagen) y Guías (PDF) |
-| Modales y mensajes | Detalle de destino (modal con AJAX) y SweetAlert2 |
+| Modales y mensajes | Detalle de destino (modal con AJAX), SweetAlert2 para avisos y confirmación al eliminar |
 | Bootstrap 5 responsive | `_Layout` y todas las vistas |
-| Auditoría de operaciones | Campos `CreadoPor` y `ModificadoPor` |
-| Al menos 7 tablas propias | 9 tablas propias, más las de Identity |
+| Auditoría: qué usuario realizó cada operación | Tabla `RegistrosAuditoria` y pantalla `/Auditoria` (solo administrador) |
+| Al menos 7 tablas propias | 10 tablas propias, más las de Identity |
 | Módulo de IA (chatbot con Gemini) | Botón flotante y `GeminiService` |
-
----
-
-## Capturas
-
-[Opcional: agregar capturas de la portada, los destinos, el modal de detalle y el chat.]
+| Repositorio con README, URL pública y credenciales de prueba | Este archivo |

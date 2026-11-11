@@ -33,9 +33,6 @@
             @foreach (var d in Model)
             {
                 <div class="col-md-6 col-lg-4">
-                    <button type="button" class="btn btn-aa btn-sm mt-3 btn-detalle" data-destino="@d.Id">
-                        Ver detalle y reseñas
-                    </button>
                     <div class="card destino-card h-100">
                         <partial name="_BotonFavorito" model="(d.Id, favoritos.Contains(d.Id))" />
                         <img src="@(d.ImagenUrl ?? "/images/hero-bg.jpg")" class="card-img-top" alt="@d.Nombre" />
@@ -46,12 +43,19 @@
                             </div>
                             <h2 class="h5">@d.Nombre</h2>
                             <p class="text-muted">@d.Descripcion</p>
-                            @foreach (var c in d.Caracteristicas)
-                            {
-                                <span class="badge etiqueta-car me-1">
-                                    <i class="fas @c.Caracteristica?.Icono" aria-hidden="true"></i> @c.Caracteristica?.Nombre
-                                </span>
-                            }
+                            <div>
+                                @foreach (var c in d.Caracteristicas)
+                                {
+                                    <span class="badge etiqueta-car me-1">
+                                        <i class="fas @c.Caracteristica?.Icono" aria-hidden="true"></i> @c.Caracteristica?.Nombre
+                                    </span>
+                                }
+                            </div>
+                            <div class="mt-auto pt-3">
+                                <button type="button" class="btn btn-aa btn-sm btn-detalle" data-destino="@d.Id">
+                                    Ver detalle y reseñas
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
