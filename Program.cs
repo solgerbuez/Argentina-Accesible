@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity.UI.Services;
 using ArgentinaAccesible.Services;
 using ArgentinaAccesible.Data;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +45,7 @@ builder.Services.AddControllersWithViews(options =>
     p.SetNonPropertyValueMustBeANumberAccessor(() => "El valor debe ser un número.");
 });
 builder.Services.AddHttpClient<GeminiService>(c => c.Timeout = TimeSpan.FromSeconds(30));
+builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
 
 
 var app = builder.Build();
