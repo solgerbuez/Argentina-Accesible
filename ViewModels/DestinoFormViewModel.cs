@@ -20,13 +20,7 @@ public class DestinoFormViewModel
     [Display(Name = "Dirección")]
     public string? Direccion { get; set; }
 
-    [Required(ErrorMessage = "La latitud es obligatoria")]
-    [Range(-90, 90, ErrorMessage = "La latitud debe estar entre -90 y 90")]
-    public double? Latitud { get; set; }
-
-    [Required(ErrorMessage = "La longitud es obligatoria")]
-    [Range(-180, 180, ErrorMessage = "La longitud debe estar entre -180 y 180")]
-    public double? Longitud { get; set; }
+   
 
     [Display(Name = "Categoría")]
     [Range(1, int.MaxValue, ErrorMessage = "Elegí una categoría")]
@@ -36,13 +30,13 @@ public class DestinoFormViewModel
     [Range(1, int.MaxValue, ErrorMessage = "Elegí una provincia")]
     public int ProvinciaId { get; set; }
 
-    // Imagen actual (para mostrarla al editar) y archivo nuevo a subir
+    
     public string? ImagenUrl { get; set; }
 
     [Display(Name = "Imagen")]
     public IFormFile? Imagen { get; set; }
 
-    // Características tildadas
+  
     public List<int> CaracteristicasSeleccionadas { get; set; } = new();
 
     // Datos para los combos y checkboxes (no vienen del formulario)

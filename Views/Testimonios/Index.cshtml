@@ -13,6 +13,7 @@
         <table class="table align-middle">
             <thead>
                 <tr>
+                    <th>Estado</th>
                     <th>Nombre</th>
                     <th>Localidad</th>
                     <th>Texto</th>
@@ -25,6 +26,16 @@
                 @foreach (var t in Model)
                 {
                     <tr>
+                        <td>
+                            @if (t.Pendiente)
+                            {
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Publicado</span>
+                            }
+                        </td>
                         <td>@t.Nombre</td>
                         <td>@t.Localidad</td>
                         <td style="max-width:280px">@(t.Texto.Length > 90 ? t.Texto[..90] + "…" : t.Texto)</td>
@@ -42,6 +53,12 @@
                             }
                         </td>
                         <td class="text-end">
+                            @if (t.Pendiente)
+                            {
+                                <form asp-action="Aprobar" asp-route-id="@t.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-success">Aprobar</button>
+                                </form>
+                            }
                             <a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-outline-primary">Editar</a>
                             <form asp-action="Eliminar" asp-route-id="@t.Id" method="post" class="d-inline form-eliminar">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>

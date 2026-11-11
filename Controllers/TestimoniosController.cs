@@ -13,8 +13,12 @@ namespace ArgentinaAccesible.Controllers
 
         public TestimoniosController(ApplicationDbContext context) => _context = context;
 
+        // Los pendientes de aprobación se muestran primero
         public async Task<IActionResult> Index()
-            => View(await _context.Testimonios.OrderByDescending(t => t.FechaCreacion).ToListAsync());
+            => View(await _context.Testimonios
+                .OrderByDescending(t => t.Pendiente)
+                .ThenByDescending(t => t.FechaCreacion)
+                .ToListAsync());
 
         public IActionResult Create() => View();
 
@@ -59,6 +63,23 @@ namespace ArgentinaAccesible.Controllers
 
             await _context.SaveChangesAsync();
             TempData["Exito"] = "El testimonio se actualizó correctamente.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // El administrador aprueba un testimonio enviado por un usuario: desde ahí se muestra al público
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Aprobar(int id)
+        {
+            var testimonio = await _context.Testimonios.FindAsync(id);
+            if (testimonio != null && testimonio.Pendiente)
+            {
+                testimonio.Pendiente = false;
+                testimonio.ModificadoPor = User.Identity?.Name ?? "desconocido";
+                testimonio.FechaModificacion = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+                TempData["Exito"] = "El testimonio se aprobó y ya se muestra en el sitio.";
+            }
             return RedirectToAction(nameof(Index));
         }
 

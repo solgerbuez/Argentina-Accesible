@@ -29,6 +29,8 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Destinos" asp-action="Index">Destinos</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Guias" asp-action="Index">Guías</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Testimonios">Testimonios</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="QuienesSomos">Quiénes somos</a></li>
                         @if (User.IsInRole("Usuario"))
                         {
                             <li class="nav-item"><a class="nav-link" asp-controller="Favoritos" asp-action="Index">Mis favoritos</a></li>
@@ -44,6 +46,8 @@
                                     <li><a class="dropdown-item" asp-controller="Provincias" asp-action="Index">Provincias</a></li>
                                     <li><a class="dropdown-item" asp-controller="Caracteristicas" asp-action="Index">Características</a></li>
                                     <li><a class="dropdown-item" asp-controller="Testimonios" asp-action="Index">Testimonios</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-controller="Auditoria" asp-action="Index">Auditoría</a></li>
                                 </ul>
                             </li>
                         }

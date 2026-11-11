@@ -171,3 +171,20 @@ document.addEventListener('submit', async (e) => {
         }
     });
 })();
+
+// Confirmación antes de eliminar (formularios de los ABM)
+document.addEventListener('submit', (e) => {
+    const form = e.target.closest('.form-eliminar');
+    if (!form) return;
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Eliminar este registro?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((r) => {
+        if (r.isConfirmed) form.submit();
+    });
+});

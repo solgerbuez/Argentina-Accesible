@@ -91,12 +91,6 @@ namespace ArgentinaAccesible.Migrations
                     b.Property<string>("ImagenUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Latitud")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Longitud")
-                        .HasColumnType("float");
-
                     b.Property<string>("ModificadoPor")
                         .HasColumnType("nvarchar(max)");
 
@@ -214,6 +208,41 @@ namespace ArgentinaAccesible.Migrations
                     b.ToTable("Provincias");
                 });
 
+            modelBuilder.Entity("ArgentinaAccesible.Models.RegistroAuditoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Detalle")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Entidad")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RegistrosAuditoria");
+                });
+
             modelBuilder.Entity("ArgentinaAccesible.Models.Resena", b =>
                 {
                     b.Property<int>("Id")
@@ -277,6 +306,9 @@ namespace ArgentinaAccesible.Migrations
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
+
+                    b.Property<bool>("Pendiente")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Texto")
                         .IsRequired()

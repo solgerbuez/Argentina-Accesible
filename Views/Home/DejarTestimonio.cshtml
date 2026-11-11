@@ -1,0 +1,43 @@
+﻿@model ArgentinaAccesible.ViewModels.TestimonioEnvioViewModel
+@{
+    ViewData["Title"] = "Dejar mi testimonio";
+}
+
+<div class="container py-5" style="max-width:640px">
+    <h1 class="h3 mb-2">Dejá tu testimonio</h1>
+    <p class="text-muted">
+        Contanos qué situación viviste, por ejemplo no saber si un transporte tenía rampa o encontrarte con escaleras
+        en un lugar, y cómo te ayudó Argentina Accesible. Se va a publicar después de que el equipo lo revise.
+    </p>
+
+    <form asp-action="DejarTestimonio" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Localidad" class="form-label"></label>
+            <input asp-for="Localidad" class="form-control" />
+            <span asp-validation-for="Localidad" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Texto" class="form-label"></label>
+            <textarea asp-for="Texto" class="form-control" rows="6"
+                      placeholder="Ej.: Una vez llegamos a un restaurante y la única entrada era por una escalera..."></textarea>
+            <div class="form-text">Entre 20 y 600 caracteres.</div>
+            <span asp-validation-for="Texto" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-aa">Enviar mi testimonio</button>
+        <a asp-action="Testimonios" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

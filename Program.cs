@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Falta la cadena de conexión 'DefaultConnection'.");
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -24,9 +26,23 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequiredLength = 6;
 })
     .AddRoles<IdentityRole>()
+    .AddErrorDescriber<SpanishIdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    var p = options.ModelBindingMessageProvider;
+    p.SetValueMustNotBeNullAccessor(_ => "Este campo es obligatorio.");
+    p.SetMissingBindRequiredValueAccessor(nombre => $"Falta el valor de {nombre}.");
+    p.SetMissingKeyOrValueAccessor(() => "Falta un valor.");
+    p.SetValueIsInvalidAccessor(valor => $"El valor '{valor}' no es válido.");
+    p.SetAttemptedValueIsInvalidAccessor((valor, nombre) => $"El valor '{valor}' no es válido para {nombre}.");
+    p.SetUnknownValueIsInvalidAccessor(nombre => $"El valor ingresado no es válido para {nombre}.");
+    p.SetNonPropertyAttemptedValueIsInvalidAccessor(valor => $"El valor '{valor}' no es válido.");
+    p.SetNonPropertyUnknownValueIsInvalidAccessor(() => "El valor ingresado no es válido.");
+    p.SetValueMustBeANumberAccessor(nombre => $"El campo {nombre} debe ser un número.");
+    p.SetNonPropertyValueMustBeANumberAccessor(() => "El valor debe ser un número.");
+});
 builder.Services.AddHttpClient<GeminiService>(c => c.Timeout = TimeSpan.FromSeconds(30));
 
 

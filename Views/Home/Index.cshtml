@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ArgentinaAccesible.ViewModels.HomeViewModel
+@{
     ViewData["Title"] = "Inicio";
 }
 
@@ -20,3 +21,101 @@
         <a asp-controller="Destinos" asp-action="Index" class="btn btn-aa btn-lg">Explorar destinos</a>
     </div>
 </section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="seccion-titulo">¿Qué vas a encontrar en Argentina Accesible?</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="valor-card h-100">
+                    <div class="valor-icono"><i class="fas fa-map-location-dot" aria-hidden="true"></i></div>
+                    <h3 class="h5">Destinos accesibles</h3>
+                    <p>Lugares de todo el país con información sobre rampas, baños adaptados y más.</p>
+                    <a asp-controller="Destinos" asp-action="Index" class="stretched-link fw-semibold">Ver destinos</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="valor-card v2 h-100">
+                    <div class="valor-icono"><i class="fas fa-book-open" aria-hidden="true"></i></div>
+                    <h3 class="h5">Guías descargables</h3>
+                    <p>Consejos y recursos en PDF para preparar tu viaje con tranquilidad.</p>
+                    <a asp-controller="Guias" asp-action="Index" class="stretched-link fw-semibold">Ver guías</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="valor-card v3 h-100">
+                    <div class="valor-icono"><i class="fas fa-heart" aria-hidden="true"></i></div>
+                    <h3 class="h5">Reseñas y favoritos</h3>
+                    <p>Guardá tus destinos preferidos y leé la opinión de otros viajeros.</p>
+                    <a asp-controller="Destinos" asp-action="Index" class="stretched-link fw-semibold">Explorar</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="valor-card h-100">
+                    <div class="valor-icono"><i class="fas fa-comments" aria-hidden="true"></i></div>
+                    <h3 class="h5">Asistente virtual</h3>
+                    <p>Preguntale lo que necesites y te ayuda a encontrar lugares y usar el sitio.</p>
+                    <a href="#" class="stretched-link fw-semibold"
+                       onclick="document.getElementById('chat-boton').click(); return false;">Abrir el chat</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.Destacados.Any())
+{
+    <section class="py-5">
+        <div class="container">
+            <h2 class="seccion-titulo">Los más guardados por la comunidad</h2>
+            <div class="row g-4">
+                @foreach (var d in Model.Destacados)
+                {
+                    <div class="col-md-4">
+                        <div class="card destino-card h-100">
+                            <img src="@(d.ImagenUrl ?? "/images/hero-bg.jpg")" class="card-img-top" alt="@d.Nombre" />
+                            <div class="card-body">
+                                <span class="badge etiqueta-prov mb-2">@d.Provincia?.Nombre</span>
+                                <h3 class="h5">@d.Nombre</h3>
+                                <p class="text-muted mb-0">@d.Descripcion</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-4">
+                <a asp-controller="Destinos" asp-action="Index" class="btn btn-aa">Ver todos los destinos</a>
+            </div>
+        </div>
+    </section>
+}
+
+@if (Model.Testimonios.Any())
+{
+    <section class="py-5">
+        <div class="container">
+            <h2 class="seccion-titulo">Testimonios</h2>
+            <div class="row g-4">
+                @foreach (var t in Model.Testimonios)
+                {
+                    <div class="col-md-4">
+                        <div class="testimonio-card">
+                            <i class="fas fa-quote-left comilla" aria-hidden="true"></i>
+                            <p class="mt-2">@t.Texto</p>
+                            <div class="d-flex align-items-center gap-3 mt-3">
+                                <div class="avatar-inicial" aria-hidden="true">@t.Nombre.Substring(0, 1).ToUpper()</div>
+                                <div>
+                                    <strong>@t.Nombre</strong><br />
+                                    <small class="text-muted">@t.Localidad</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-4">
+                <a asp-action="Testimonios" class="btn btn-aa">Ver todos los testimonios</a>
+            </div>
+        </div>
+    </section>
+}

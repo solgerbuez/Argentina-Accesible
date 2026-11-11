@@ -14,8 +14,7 @@ public class Destino
     public string Descripcion { get; set; } = "";
 
     public string? Direccion { get; set; }
-    public double Latitud { get; set; }
-    public double Longitud { get; set; }
+   
     public string? ImagenUrl { get; set; }
 
     public int CategoriaId { get; set; }

@@ -1,0 +1,69 @@
+﻿@model List<ArgentinaAccesible.Models.Testimonio>
+@{
+    ViewData["Title"] = "Testimonios";
+    var esAdmin = User.IsInRole("Administrador");
+    var pendientes = ViewData["Pendientes"] as int? ?? 0;
+}
+
+<section class="banner-pagina text-center">
+    <div class="container">
+        <h1>Testimonios</h1>
+        <p class="lead mb-0">Experiencias de personas que viajaron por Argentina con accesibilidad.</p>
+    </div>
+</section>
+
+<div class="container my-5">
+    @if (!Model.Any())
+    {
+        <p class="text-center text-muted">Todavía no hay testimonios.</p>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var t in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonio-card">
+                        <i class="fas fa-quote-left comilla" aria-hidden="true"></i>
+                        <p class="mt-2">@t.Texto</p>
+                        <div class="d-flex align-items-center gap-3 mt-3">
+                            <div class="avatar-inicial" aria-hidden="true">@t.Nombre.Substring(0, 1).ToUpper()</div>
+                            <div>
+                                <strong>@t.Nombre</strong><br />
+                                <small class="text-muted">@t.Localidad</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @if (esAdmin)
+    {
+        <div class="text-center mt-5">
+            <a asp-controller="Testimonios" asp-action="Index" class="btn btn-aa">
+                Administrar testimonios@(pendientes > 0 ? $" ({pendientes} pendientes)" : "")
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="valor-card v2 text-center mt-5">
+            <h2 class="h4">Compartí tu experiencia</h2>
+            <p class="mb-3">
+                ¿Alguna vez, por tener una discapacidad, no pudiste saber si un colectivo tenía rampa
+                o llegaste a un restaurante y te encontraste con escaleras?
+                Contanos qué te pasó y cómo te ayudó Argentina Accesible.
+                Tu experiencia puede ayudar a otras personas a planificar mejor sus viajes
+                y a que cada vez más lugares sean accesibles.
+            </p>
+            <a asp-action="DejarTestimonio" class="btn btn-aa">Dejar mi testimonio</a>
+            @if (User.Identity?.IsAuthenticated != true)
+            {
+                <p class="small text-muted mt-2 mb-0">Para enviarlo tenés que iniciar sesión o registrarte.</p>
+            }
+            <p class="small text-muted mt-2 mb-0">Los testimonios se revisan antes de publicarse.</p>
+        </div>
+    }
+</div>

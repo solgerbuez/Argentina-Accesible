@@ -7,7 +7,7 @@
 <div class="container py-5" style="max-width:480px">
     <h1 class="h3 mb-4">Iniciar sesión</h1>
 
-    <form id="account" method="post">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
         <div class="mb-3">
@@ -27,12 +27,11 @@
             <label asp-for="Input.RememberMe" class="form-check-label"></label>
         </div>
 
-        <button id="login-submit" type="submit" class="btn btn-aa w-100">Ingresar</button>
+        <button type="submit" class="btn btn-aa w-100">Ingresar</button>
     </form>
 
     <p class="mt-3 text-center">
-        ¿No tenés cuenta?
-        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrate</a>
+        ¿No tenés cuenta? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrate</a>
     </p>
 </div>
 

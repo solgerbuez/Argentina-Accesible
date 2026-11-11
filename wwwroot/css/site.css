@@ -151,8 +151,11 @@ h1, h2, h3, h4, h5 {
     }
 
     .destino-card img {
-        height: 200px;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
         object-fit: cover;
+        object-position: center;
     }
 
 /* Misión / visión / valores */
@@ -326,6 +329,7 @@ h1, h2, h3, h4, h5 {
         outline: 3px solid #FFBE00;
         outline-offset: 2px;
     }
+
 .estrella {
     color: #B87900;
 }
@@ -434,4 +438,7 @@ h1, h2, h3, h4, h5 {
     gap: .5rem;
     padding: .75rem;
     border-top: 1px solid #D5DEE3;
+}
+
+
 }

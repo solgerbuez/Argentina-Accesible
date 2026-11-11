@@ -20,7 +20,7 @@ public class DestinosController : Controller
         _env = env;
     }
 
-    // ---------- PÚBLICO ----------
+
     public async Task<IActionResult> Index(string? busqueda)
     {
         var query = _context.Destinos
@@ -35,7 +35,7 @@ public class DestinosController : Controller
                 || d.Provincia!.Nombre.Contains(busqueda)
                 || d.Categoria!.Nombre.Contains(busqueda));
 
-        // Qué destinos ya son favoritos del usuario (para pintar el corazón)
+
         var favoritos = new HashSet<int>();
         if (User.IsInRole("Usuario"))
         {
@@ -50,7 +50,7 @@ public class DestinosController : Controller
         ViewData["Busqueda"] = busqueda;
         return View(await query.OrderBy(d => d.Nombre).ToListAsync());
     }
-    // Contenido del modal: info del destino + reseñas (se carga por AJAX)
+
     public async Task<IActionResult> Detalle(int id)
     {
         var destino = await _context.Destinos
@@ -75,7 +75,7 @@ public class DestinosController : Controller
         return PartialView("_DetalleDestino", vm);
     }
 
-    // ---------- ADMINISTRADOR ----------
+
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Admin()
     {
@@ -114,8 +114,6 @@ public class DestinosController : Controller
             Nombre = vm.Nombre,
             Descripcion = vm.Descripcion,
             Direccion = vm.Direccion,
-            Latitud = vm.Latitud!.Value,
-            Longitud = vm.Longitud!.Value,
             CategoriaId = vm.CategoriaId,
             ProvinciaId = vm.ProvinciaId,
             CreadoPor = User.Identity?.Name,
@@ -151,8 +149,6 @@ public class DestinosController : Controller
             Nombre = d.Nombre,
             Descripcion = d.Descripcion,
             Direccion = d.Direccion,
-            Latitud = d.Latitud,
-            Longitud = d.Longitud,
             CategoriaId = d.CategoriaId,
             ProvinciaId = d.ProvinciaId,
             ImagenUrl = d.ImagenUrl,
@@ -188,21 +184,19 @@ public class DestinosController : Controller
         destino.Nombre = vm.Nombre;
         destino.Descripcion = vm.Descripcion;
         destino.Direccion = vm.Direccion;
-        destino.Latitud = vm.Latitud!.Value;
-        destino.Longitud = vm.Longitud!.Value;
         destino.CategoriaId = vm.CategoriaId;
         destino.ProvinciaId = vm.ProvinciaId;
         destino.ModificadoPor = User.Identity?.Name;
         destino.FechaModificacion = DateTime.Now;
 
-        // Características: se quitan las destildadas y se agregan las nuevas
+
         var actuales = destino.Caracteristicas.ToList();
         foreach (var dc in actuales.Where(a => !vm.CaracteristicasSeleccionadas.Contains(a.CaracteristicaAccesibilidadId)))
             _context.DestinoCaracteristicas.Remove(dc);
         foreach (var cid in vm.CaracteristicasSeleccionadas.Where(i => !actuales.Any(a => a.CaracteristicaAccesibilidadId == i)))
             destino.Caracteristicas.Add(new DestinoCaracteristica { CaracteristicaAccesibilidadId = cid });
 
-        // Imagen nueva: reemplaza a la anterior
+        
         if (vm.Imagen != null)
         {
             EliminarImagen(destino.ImagenUrl);
@@ -231,7 +225,7 @@ public class DestinosController : Controller
         return RedirectToAction(nameof(Admin));
     }
 
-    // ---------- AUXILIARES ----------
+
     private async Task CargarListas(DestinoFormViewModel vm)
     {
         vm.Categorias = await _context.Categorias.OrderBy(c => c.Nombre)
